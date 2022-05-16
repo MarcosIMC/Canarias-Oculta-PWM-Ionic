@@ -1,0 +1,32 @@
+.longArticle {
+  clear: both;
+  display: table;
+  text-align: center;
+  margin: 1%;
+  padding: 1%;
+}
+
+.longArticle > h1 {
+  font-family: "Permanent Marker", cursive;
+}
+
+.longArticle > p {
+  text-align: justify;
+}
+
+#imgLongArticle {
+  margin: 0.5em;
+  border-radius: 1em;
+  float: right;
+  width: 30%;
+}
+
+#favouriteStar {
+  float: left;
+  width: 5em;
+  margin: 0.5em;
+}
+
+#favouriteStar:hover {
+  cursor: pointer;
+}
