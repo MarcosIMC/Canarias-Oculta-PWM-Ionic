@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {ArticleService} from "../services/article.service";
+import {Article} from "../class/article";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +10,10 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  public articles: Observable<Article[]>;
+
+  constructor(private articleService : ArticleService) {
+    this.articles = this.articleService.getAll();
+  }
 
 }
