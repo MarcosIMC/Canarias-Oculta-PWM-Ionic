@@ -1,7 +1,11 @@
 <ion-header>
   <ion-toolbar>
+    <ion-button slot="start">
+      <ion-back-button [routerLink]="''" >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-back-button>
+    </ion-button>
     <app-navbar></app-navbar>
-    <ion-title>{{article.island}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" *ngIf="article">
