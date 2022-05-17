@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import {AuthService} from '../services/auth.service';
+import {AngularFireAuthGuard} from '@angular/fire/compat/auth-guard';
+import {AuthGuard} from "../guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -18,6 +21,7 @@ const routes: Routes = [
       {
         path: 'tab3',
         loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+
       },
       {
         path: '',

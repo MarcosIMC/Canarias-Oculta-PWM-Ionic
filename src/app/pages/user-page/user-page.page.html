@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start">
+      <ion-back-button [routerLink]="''" >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-back-button>
+    </ion-button>
+    <app-navbar></app-navbar>
+    <ion-button (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        Email: {{userEmail}}
+      </ion-col>
+      <ion-col text-center>
+        Name: {{userName}}
+      </ion-col>
+      <ion-col text-center>
+        Id: {{userId}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
