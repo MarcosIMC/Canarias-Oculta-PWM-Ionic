@@ -22,7 +22,7 @@ export class ArticlePagePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.sub1 = this.articleService.getArticleByName(id).subscribe(article => {
+    this.sub1 = this.articleService.getArticleById(id).subscribe(article => {
       if (!article) {
         this.router.navigate(['']);
       }else {

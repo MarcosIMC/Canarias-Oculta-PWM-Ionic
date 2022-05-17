@@ -17,7 +17,7 @@ export class ArticleService {
     return collectionData(articlesCollection, {idField: 'id'}).pipe(map(articles => articles as Article[]));
   }
 
-  getArticleByName(id: string):Observable<Article>{
+  getArticleById(id: string):Observable<Article>{
 
     const article = doc(this.firestore, `articles/${id}`);
     return docSnapshots(article).pipe(map(doc => {
