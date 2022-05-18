@@ -1,7 +1,8 @@
 {
   "name": "Canarias-Oculta-PWM-Ionic",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

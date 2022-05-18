@@ -3,6 +3,9 @@ import {ArticleService} from '../../services/article.service';
 import {Article} from '../../class/article';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FavouritesService} from '../../services/favourites.service';
+import {AuthService} from '../../services/auth.service';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-article-page',
@@ -13,8 +16,8 @@ export class ArticlePagePage implements OnInit, OnDestroy {
   public article: Article;
   sub1: Subscription;
 
-  constructor(private articleService: ArticleService, private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+  constructor(private articleService: ArticleService, private favouriteService: FavouritesService,
+              private authService: AuthService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnDestroy() {
     this.sub1.unsubscribe();
@@ -31,4 +34,15 @@ export class ArticlePagePage implements OnInit, OnDestroy {
     });
   }
 
+  changeFavouriteState() {
+    if (!this.getFavouriteState()) {
+      this.favouriteService.addFavourite(this.authService.userDetails().pipe(map(user=>user.uid as string)), this.article.id);
+    } else {
+      this.favouriteService.deleteFavourite(this.authService.userDetails().pipe(map(user=>user.uid as string)), this.article.id);
+    }
+  }
+
+  getFavouriteState(): boolean {
+    return this.favouriteService.checkFavourite(this.authService.userDetails().pipe(map(user=>user.uid as string)), this.article.id);
+  }
 }
