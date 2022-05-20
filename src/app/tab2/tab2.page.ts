@@ -4,6 +4,7 @@ import {Article} from '../class/article';
 import {ArticleService} from '../services/article.service';
 import {FavouritesService} from '../services/favourites.service';
 import {AuthService} from '../services/auth.service';
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-tab2',
@@ -15,12 +16,19 @@ export class Tab2Page {
   public articles: any[];
 
   constructor(private articleService: ArticleService, private favouriteService: FavouritesService, private authService: AuthService) {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const articleIds = this.favouriteService.getFavourites((<any>authService.userDetails()).uid);
-    // eslint-disable-next-line guard-for-in
-    for (const article in articleIds){
-      this.articles.push(this.articleService.getArticleById(article));
-    }
   }
 
+  ionViewDidEnter() {
+    this.authService.userDetails().subscribe(res => {
+      if (res != null) {
+        console.log(res.uid);
+        this.favouriteService.getFavourites(res.uid).then(
+          ret => {
+            for (const article in ret) {
+              this.articles.push(this.articleService.getArticleById(article));
+            }
+          });
+      }
+    });
+  }
 }

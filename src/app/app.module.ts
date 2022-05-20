@@ -14,7 +14,8 @@ import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireModule} from '@angular/fire/compat';
 
 import {AuthService} from './services/auth.service';
-import {AuthGuard} from "./guards/auth.guard";
+import {AuthGuard} from './guards/auth.guard';
+import {FavouritesService} from './services/favourites.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,7 @@ import {AuthGuard} from "./guards/auth.guard";
     AngularFireModule.initializeApp(environment.firebase), provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore())
   ],
-  providers: [AuthGuard, AuthService, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [AuthGuard, AuthService, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FavouritesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
