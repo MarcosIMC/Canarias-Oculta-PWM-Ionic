@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {Platform} from "@ionic/angular";
 import {AuthService} from "./services/auth.service";
+import {FavouritesService} from "./services/favourites.service";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,9 @@ import {AuthService} from "./services/auth.service";
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private router:Router, private platform:Platform, private fAuth:AuthService) {
+  private initPlugin: boolean;
+  constructor(private router:Router, private platform:Platform, private fAuth:AuthService,
+              private _sqlite: FavouritesService) {
     this.initializeApp();
   }
 
@@ -19,6 +22,15 @@ export class AppComponent {
         if(state) {
           this.router.navigate(['user-page']);
         }
+      });
+    });
+    this.platform.ready().then(async () => {
+      this._sqlite.initializePlugin().then(ret => {
+        this.initPlugin = ret;
+        console.log('>>>> in App  this.initPlugin ' + this.initPlugin);
+        this._sqlite.closeAllConnections();
+        console.log('ñPrueba de cambios 18ñ');
+        this._sqlite.createTable();
       });
     });
   }
