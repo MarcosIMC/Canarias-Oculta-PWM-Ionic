@@ -5,6 +5,8 @@ import {ArticleService} from '../services/article.service';
 import {FavouritesService} from '../services/favourites.service';
 import {AuthService} from '../services/auth.service';
 import {map} from "rxjs/operators";
+import {ArticlePagePage} from "../pages/article-page/article-page.page";
+import {ArticlePipe} from "../class/article.pipe";
 
 @Component({
   selector: 'app-tab2',
@@ -13,22 +15,12 @@ import {map} from "rxjs/operators";
 })
 export class Tab2Page {
 
-  public articles: any[];
+  public articles: Promise<string[]>;
 
-  constructor(private articleService: ArticleService, private favouriteService: FavouritesService, private authService: AuthService) {
+  constructor(public articleService: ArticleService, private favouriteService: FavouritesService, private authService: AuthService) {
   }
 
   ionViewDidEnter() {
-    this.authService.userDetails().subscribe(res => {
-      if (res != null) {
-        console.log(res.uid);
-        this.favouriteService.getFavourites(res.uid).then(
-          ret => {
-            for (const article in ret) {
-              this.articles.push(this.articleService.getArticleById(article));
-            }
-          });
-      }
-    });
+    this.articles = this.favouriteService.getFavourites(0);
   }
 }

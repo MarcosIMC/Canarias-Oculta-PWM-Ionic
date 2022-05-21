@@ -17,8 +17,9 @@ export class FavouritesService {
   private readonly dbName: string = 'favourites.db';
   private readonly dbTable: string = 'favouriteTable';
   private readonly createSchema: string = `CREATE TABLE IF NOT EXISTS ${this.dbTable} (
-  user_id STRING PRIMARY KEY,
-  article_id STRING`;
+  user_id STRING,
+  article_id STRING,
+  PRIMARY KEY (user_id, article_id) )`;
 
   constructor() {
   }
@@ -541,53 +542,56 @@ export class FavouritesService {
   }
 
   public async createTable() {
+    await this.closeAllConnections();
     let db = await this.createConnection(this.dbName, false, "no-encryption", 1);
     await db.open();
     await db.execute(this.createSchema);
     await db.close();
-    await this.closeConnection(this.dbName);
+    await this.closeAllConnections();
   }
 
   public async addFavourite(userId, articleId) {
+    await this.closeAllConnections();
+    await this.createTable();
     let db = await this.createConnection(this.dbName, false, "no-encryption", 1);
     await db.open();
     await db.run(`INSERT INTO ${this.dbTable} (user_id, article_id) VALUES ('${userId}', '${articleId}');`, []);
     await db.close();
-    await this.closeConnection(this.dbName);
+    await this.closeAllConnections();
   }
 
   public async deleteFavourite(userId, articleId) {
+    await this.closeAllConnections();
+    await this.createTable();
     let db = await this.createConnection(this.dbName, false, "no-encryption", 1);
     await db.open();
     await db.run(`DELETE FROM ${this.dbTable} WHERE user_id = '${userId}' AND article_id = '${articleId}';`, []);
     await db.close();
-    await this.closeConnection(this.dbName);
+    await this.closeAllConnections();
   }
 
   public async checkFavourite(userId, articleId): Promise<boolean> {
+    await this.closeAllConnections();
+    await this.createTable();
     let db = await this.createConnection(this.dbName, false, "no-encryption", 1);
     await db.open();
     let ret = await db.query(`
     SELECT article_id FROM '${this.dbTable}' WHERE user_id = '${userId}' AND article_id = '${articleId}';`);
     await db.close();
-    await this.closeConnection(this.dbName);
+    await this.closeAllConnections();
     return ret.values.length > 0;
   }
 
-  public async getFavourites(userId): Promise<any[]> {
+  public async getFavourites(userId): Promise<string[]> {
+    await this.closeAllConnections();
+    await this.createTable();
     let db = await this.createConnection(this.dbName, false, "no-encryption", 1);
     await db.open();
     let ret = await db.query(`
     SELECT article_id FROM '${this.dbTable}' WHERE user_id = '${userId}';`, []);
-    let articles = [];
-    if (ret.values.length > 0) {
-      for (let i = 0; i < ret.values.length; i++) {
-      articles.push(ret.values[i]);
-      }
-    }
     await db.close();
-    await this.closeConnection(this.dbName);
-    return articles;
+    await this.closeAllConnections();
+    return ret.values.map(ret=>{return ret.article_id});
   }
 
 }

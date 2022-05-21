@@ -39,23 +39,21 @@ export class ArticlePagePage implements OnInit, OnDestroy {
     this.getFavouriteState().then(res=>{this.favourite = res});
   }
 
-  changeFavouriteState() {
-    if (!this.authService.isAuthenticated()) {return}
+  async changeFavouriteState() {
+    //if (!this.authService.isAuthenticated()) {console.log("Sin usuario"); return}
+    let userId = 0;//await this.authService.userDetails().subscribe(res=> { return res.uid});
     if (!this.favourite) {
-      this.authService.userDetails().subscribe(res=> {
-        this.favouriteService.addFavourite(res.uid, this.article.id);
-      });
+      await this.favouriteService.addFavourite(userId, this.article.id);
     } else {
-      this.authService.userDetails().subscribe(res=> {
-        this.favouriteService.deleteFavourite(res.uid, this.article.id);
-      });
+      await this.favouriteService.deleteFavourite(userId, this.article.id);
     }
     this.getFavouriteState().then(res=>{this.favourite = res});
   }
 
   async getFavouriteState(): Promise<boolean> {
-    if (!this.authService.isAuthenticated()) {return false}
-    console.log(this.authService.userDetails().pipe(map(user=>user.uid as string)));
-    return await this.favouriteService.checkFavourite(this.authService.userDetails().pipe(map(user=>user.uid as string)), this.article.id);
+    //if (!this.authService.isAuthenticated()) {return false}
+    let userId = 0;//await this.authService.userDetails().subscribe(res=> { return res.uid});
+    //console.log(userId);
+    return await this.favouriteService.checkFavourite(userId, this.article.id);
   }
 }

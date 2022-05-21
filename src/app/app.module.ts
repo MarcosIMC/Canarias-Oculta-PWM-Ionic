@@ -16,15 +16,19 @@ import {AngularFireModule} from '@angular/fire/compat';
 import {AuthService} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
 import {FavouritesService} from './services/favourites.service';
+import { ArticlePipe } from './class/article.pipe';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ArticlePipe],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule ,AngularFireAuthModule,
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase), provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore())
   ],
-  providers: [AuthGuard, AuthService, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FavouritesService],
+  providers: [AuthGuard, AuthService, {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, FavouritesService],
   bootstrap: [AppComponent],
+  exports: [
+    ArticlePipe
+  ]
 })
 export class AppModule {}

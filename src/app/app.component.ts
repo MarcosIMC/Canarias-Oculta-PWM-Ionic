@@ -28,6 +28,8 @@ export class AppComponent {
       this._sqlite.initializePlugin().then(ret => {
         this.initPlugin = ret;
         console.log('>>>> in App  this.initPlugin ' + this.initPlugin);
+        this._sqlite.closeAllConnections();
+        console.log('ñPrueba de cambios 18ñ');
         this._sqlite.createTable();
       });
     });
