@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NavController} from '@ionic/angular';
 import {AuthService} from '../../services/auth.service';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {ArticleService} from "../../services/article.service";
 
 @Component({
   selector: 'app-user-page',
@@ -13,16 +14,17 @@ export class UserPagePage implements OnInit {
   userName: string;
   userId: string;
 
-  constructor(private navCtrl: NavController, private authService: AuthService) { }
+  constructor(private navCtrl: NavController, private authService: AuthService, private articleService: ArticleService) { }
 
   ngOnInit() {
     this.authService.userDetails().subscribe(res => {
       if (res != null) {
-        const name = res.displayName;
         this.userEmail = res.email;
-        this.userName = name;
         this.userId = res.uid;
         this.authService.saveIdUser(res.uid);
+        this.articleService.getUserDetails(this.userId).subscribe(ret =>{
+          this.userName = ret.displayName as string;
+        });
       } else {
         this.navCtrl.navigateBack('');
       }
