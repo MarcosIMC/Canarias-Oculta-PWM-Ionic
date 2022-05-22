@@ -51,6 +51,7 @@ export class ArticlePagePage implements OnInit, OnDestroy {
 
   async getFavouriteState(): Promise<boolean> {
     let userId = this.authService.idUser;
+    if (userId === null) {return false}
     return await this.favouriteService.checkFavourite(userId, this.article.id);
   }
 }

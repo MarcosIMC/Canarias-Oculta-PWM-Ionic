@@ -4,6 +4,7 @@ import {collection, collectionData, doc, docSnapshots, Firestore} from '@angular
 import {map} from 'rxjs/operators';
 import {Article} from '../class/article';
 import {Observable} from "rxjs";
+import {User} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,15 @@ export class ArticleService {
       const id = doc.id;
       const data = doc.data();
       return {id, ...data} as Article;
+    }));
+  }
+
+  getUserDetails(userId: string):Observable<User>{
+    const article = doc(this.firestore, `users/${userId}`);
+    return docSnapshots(article).pipe(map(doc => {
+      const id = doc.id;
+      const data = doc.data();
+      return {id, ...data} as User;
     }));
   }
 
