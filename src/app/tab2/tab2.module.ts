@@ -6,6 +6,7 @@ import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import {Tab1PageRoutingModule} from "../tab1/tab1-routing.module";
+import {AutoLoadArticleComponent} from "../components/auto-load-article/auto-load-article.component";
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import {Tab1PageRoutingModule} from "../tab1/tab1-routing.module";
     Tab2PageRoutingModule,
     Tab1PageRoutingModule
   ],
-  declarations: [Tab2Page]
+  declarations: [Tab2Page, AutoLoadArticleComponent]
 })
 export class Tab2PageModule {}

@@ -1,0 +1,9 @@
+<ion-card>
+  <img [src]="article.imageURL" alt="{{article.altText}}">
+  <ion-header>
+    <ion-card-title>{{article.title}}</ion-card-title>
+  </ion-header>
+  <ion-card-content>
+    {{article.content | slice:0:300}}...
+  </ion-card-content>
+</ion-card>
