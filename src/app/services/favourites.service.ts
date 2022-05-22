@@ -4,7 +4,9 @@ import { Capacitor } from '@capacitor/core';
 import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection, capSQLiteSet,
   capSQLiteChanges, capSQLiteValues, capEchoResult, capSQLiteResult,
   capNCDatabasePathResult } from '@capacitor-community/sqlite';
-import {createConnection} from "net";
+import {ArticleService} from "./article.service";
+import {Article} from "../class/article";
+import {Observable} from "rxjs";
 
 @Injectable()
 
@@ -21,7 +23,7 @@ export class FavouritesService {
   article_id STRING,
   PRIMARY KEY (user_id, article_id) )`;
 
-  constructor() {
+  constructor(private _articleService: ArticleService) {
   }
   /**
    * Plugin Initialization
@@ -582,7 +584,7 @@ export class FavouritesService {
     return ret.values.length > 0;
   }
 
-  public async getFavourites(userId): Promise<string[]> {
+  public async getFavourites(userId) {
     await this.closeAllConnections();
     await this.createTable();
     let db = await this.createConnection(this.dbName, false, "no-encryption", 1);
@@ -591,7 +593,15 @@ export class FavouritesService {
     SELECT article_id FROM '${this.dbTable}' WHERE user_id = '${userId}';`, []);
     await db.close();
     await this.closeAllConnections();
-    return ret.values.map(ret=>{return ret.article_id});
+    let articles = [];
+    return ret.values.map(ret => {return ret.article_id});
+    /*for (let favourite of ret.values) {
+      let id = favourite.article_id;
+      let article = this._articleService.getArticleById(id);
+      await article.subscribe(res => {articles.push(res)});
+      console.log(">>>La imagen de "+id+" es: "+articles[articles.length-1].imageURL);
+    }
+    return articles;//.map(ret=>{return this._articleService.getArticleById(ret.article_id) as Article});*/
   }
 
 }

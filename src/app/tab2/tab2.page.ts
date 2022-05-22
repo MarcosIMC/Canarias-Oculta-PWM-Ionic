@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import {Observable} from 'rxjs';
-import {Article} from '../class/article';
 import {ArticleService} from '../services/article.service';
 import {FavouritesService} from '../services/favourites.service';
 import {AuthService} from '../services/auth.service';
-import {map} from "rxjs/operators";
-import {ArticlePagePage} from "../pages/article-page/article-page.page";
-import {ArticlePipe} from "../class/article.pipe";
+import {Article} from "../class/article";
+import {from, Observable} from "rxjs";
 
 @Component({
   selector: 'app-tab2',
@@ -15,12 +12,13 @@ import {ArticlePipe} from "../class/article.pipe";
 })
 export class Tab2Page {
 
-  public articles: Promise<string[]>;
+  public articles;
 
   constructor(public articleService: ArticleService, private favouriteService: FavouritesService, private authService: AuthService) {
   }
 
   ionViewDidEnter() {
     this.articles = this.favouriteService.getFavourites(0);
+    //this.articles = articleIds.then(ret => {return ret.map(res => {return this.articleService.getArticleById(res)})})
   }
 }
