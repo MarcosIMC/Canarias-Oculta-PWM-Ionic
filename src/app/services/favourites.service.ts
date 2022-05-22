@@ -5,8 +5,6 @@ import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection, capSQLiteSet,
   capSQLiteChanges, capSQLiteValues, capEchoResult, capSQLiteResult,
   capNCDatabasePathResult } from '@capacitor-community/sqlite';
 import {ArticleService} from "./article.service";
-import {Article} from "../class/article";
-import {Observable} from "rxjs";
 
 @Injectable()
 
@@ -593,15 +591,7 @@ export class FavouritesService {
     SELECT article_id FROM '${this.dbTable}' WHERE user_id = '${userId}';`, []);
     await db.close();
     await this.closeAllConnections();
-    let articles = [];
     return ret.values.map(ret => {return ret.article_id});
-    /*for (let favourite of ret.values) {
-      let id = favourite.article_id;
-      let article = this._articleService.getArticleById(id);
-      await article.subscribe(res => {articles.push(res)});
-      console.log(">>>La imagen de "+id+" es: "+articles[articles.length-1].imageURL);
-    }
-    return articles;//.map(ret=>{return this._articleService.getArticleById(ret.article_id) as Article});*/
   }
 
 }

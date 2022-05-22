@@ -40,8 +40,7 @@ export class ArticlePagePage implements OnInit, OnDestroy {
   }
 
   async changeFavouriteState() {
-    //if (!this.authService.isAuthenticated()) {console.log("Sin usuario"); return}
-    let userId = 0;//await this.authService.userDetails().subscribe(res=> { return res.uid});
+    let userId = this.authService.idUser;
     if (!this.favourite) {
       await this.favouriteService.addFavourite(userId, this.article.id);
     } else {
@@ -51,9 +50,7 @@ export class ArticlePagePage implements OnInit, OnDestroy {
   }
 
   async getFavouriteState(): Promise<boolean> {
-    //if (!this.authService.isAuthenticated()) {return false}
-    let userId = 0;//await this.authService.userDetails().subscribe(res=> { return res.uid});
-    //console.log(userId);
+    let userId = this.authService.idUser;
     return await this.favouriteService.checkFavourite(userId, this.article.id);
   }
 }
