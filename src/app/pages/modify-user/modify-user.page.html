@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start">
+      <ion-back-button [routerLink]="''" >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-back-button>
+    </ion-button>
+    <ion-title>modifyUser</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form class="form" [formGroup]="validations_form"
+        (ngSubmit)="tryRegister(validations_form.value)">
+    <ion-item>
+      <ion-label position="floating" color="primary">Email</ion-label>
+      <ion-input type="text" formControlName="email" value="{{userEmail}}" disabled="true"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.email">
+        <div class="error-message"
+             *ngIf="validations_form.get('email').hasError(validation.type)
+&& (validations_form.get('email').dirty
+|| validations_form.get('email').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Name</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.name">
+        <div class="error-message"
+             *ngIf="validations_form.get('name').hasError(validation.type)
+&& (validations_form.get('name').dirty
+|| validations_form.get('name').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-button class="submit-btn" type="submit"
+                [disabled]="!validations_form.valid">Update</ion-button>
+    <label class="error-message">{{errorMessage}}</label>
+    <label class="success-message">{{successMessage}}</label>
+  </form>
+
+</ion-content>
