@@ -27,7 +27,11 @@ const routes: Routes = [
     path: 'user-page',
     loadChildren: () => import('./pages/user-page/user-page.module').then( m => m.UserPagePageModule),
     //canActivate: [AuthGuard]
+  },  {
+    path: 'modify-user',
+    loadChildren: () => import('./pages/modify-user/modify-user.module').then( m => m.ModifyUserPageModule)
   }
+
 
 
 ];

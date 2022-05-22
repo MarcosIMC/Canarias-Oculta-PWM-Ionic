@@ -39,6 +39,10 @@ export class AuthService {
     });
   }*/
 
+  updateUserName(id:any, name:string){
+    this.db.doc(`users/${id}`).update({displayName:name});
+  }
+
   registerUser(value) {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.createUserWithEmailAndPassword(value.email, value.password)
